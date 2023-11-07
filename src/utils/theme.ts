@@ -41,6 +41,10 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
                 },
             }),
     },
+    typography: {
+        fontFamily: 'sans-serif',
+        fontSize: 14,
+    },
     custom: {
         secondaryBackgroundColor: mode === 'light' ? '#f1f1f1' : '#303030',
         menuBorderColor: mode === 'light' ? '#e1e1e1' : '#424242',
