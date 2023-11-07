@@ -10,7 +10,7 @@ const App: FC = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Header/>
+            <Header setMode={setMode}/>
         </ThemeProvider>
     );
 };

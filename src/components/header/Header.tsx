@@ -1,8 +1,18 @@
-import { FC } from 'react';
-import { Box, TextField, useTheme } from '@mui/material';
+import { Dispatch, FC, SetStateAction } from 'react';
+import { Box, IconButton, PaletteMode, TextField, useTheme } from '@mui/material';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-const Header: FC = () => {
+interface HeaderProps {
+    setMode: Dispatch<SetStateAction<PaletteMode>>;
+}
+
+const Header: FC<HeaderProps> = ({ setMode }) => {
     const theme = useTheme();
+
+    const handleModeChange = () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+    };
 
     return (
         <Box
@@ -42,8 +52,18 @@ const Header: FC = () => {
                     }}
                 />
             </Box>
-            <Box sx={{ flex: 1 }}>
-
+            <Box
+                sx={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItem: 'center',
+                    justifyContent: 'flex-end',
+                    pr: 6
+                }}
+            >
+                <IconButton sx={{ mt: 'auto', mb: 'auto' }} color="inherit" onClick={handleModeChange}>
+                    {theme.palette.mode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}
+                </IconButton>
             </Box>
         </Box>
     );
