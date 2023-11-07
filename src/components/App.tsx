@@ -1,6 +1,7 @@
 import { FC, useMemo, useState } from 'react';
 import { createTheme, PaletteMode, ThemeProvider } from '@mui/material';
 import { getDesignTokens } from '../utils/theme.ts';
+import Header from './header/Header.tsx';
 
 const App: FC = () => {
     const [mode, setMode] = useState<PaletteMode>('light');
@@ -9,7 +10,7 @@ const App: FC = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            {theme.palette.mode}
+            <Header/>
         </ThemeProvider>
     );
 };
