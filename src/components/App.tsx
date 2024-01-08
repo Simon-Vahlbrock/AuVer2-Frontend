@@ -9,6 +9,7 @@ import { refreshUserToken } from '../redux-modules/user/actions.ts';
 import Content from './content/Content.tsx';
 import { loadBoards } from '../redux-modules/boards/actions.ts';
 import { selectBoardsLoadingState } from '../redux-modules/boards/selectors.ts';
+import { initWebSocket } from '../utils/webSocket.ts';
 
 const App: FC = () => {
     const isLoggedIn = useAppSelector(selectUserRefreshToken);
@@ -22,6 +23,10 @@ const App: FC = () => {
     useEffect(() => {
         void dispatch(refreshUserToken());
     }, [dispatch]);
+
+    useEffect(() => {
+        initWebSocket();
+    }, []);
 
     useEffect(() => {
         if (isLoggedIn && boardsLoadingState === 'loading') {

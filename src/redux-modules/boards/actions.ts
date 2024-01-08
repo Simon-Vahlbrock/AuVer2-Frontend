@@ -14,6 +14,6 @@ export const loadBoards = () => async (dispatch: AppDispatch, getState: GetAppSt
         return;
     }
 
-    dispatch(setBoards(data));
+    dispatch(setBoards(data.boards));
     dispatch(setLoadingState('successful'));
 };

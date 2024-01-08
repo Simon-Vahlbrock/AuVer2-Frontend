@@ -23,8 +23,11 @@ const boardsSlice = createSlice({
         setLoadingState(state, action: PayloadAction<LoadingState>) {
             state.loadingState = action.payload;
         },
+        updateBoard(state, action: PayloadAction<Board>) {
+            state.boards = state.boards.map((board) => board.id !== action.payload.id ? board : action.payload);
+        }
     },
 });
 
-export const { setBoards, setLoadingState } = boardsSlice.actions;
+export const { setBoards, setLoadingState, updateBoard } = boardsSlice.actions;
 export const boardsReducer = boardsSlice.reducer;

@@ -25,7 +25,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
             ? {
                 primary: {
                     main: '#3a5a7c',
-                    light: '#3a5a7c',
+                    light: '#000000',
                     dark: '#3a5a7c',
                     contrastText: '#3a5a7c',
                 },
@@ -37,7 +37,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
             : {
                 primary: {
                     main: '#3a5a7c',
-                    light: '#3a5a7c',
+                    light: '#ffffff',
                     dark: '#3a5a7c',
                     contrastText: '#3a5a7c',
                 },
