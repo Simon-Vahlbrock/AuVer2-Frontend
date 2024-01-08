@@ -1,9 +1,11 @@
 import { configureStore, combineReducers, ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 import { userReducer } from './user/slice.ts';
+import { boardsReducer } from './boards/slice.ts';
 
 const rootReducer = combineReducers({
-    user: userReducer
+    user: userReducer,
+    boards: boardsReducer,
 });
 
 const Store = configureStore({

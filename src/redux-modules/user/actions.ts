@@ -1,27 +1,14 @@
 import { AppDispatch } from '../index.ts';
 import { setAccessToken, setLoadingState, setRefreshToken, setUserName, UserState } from './slice.ts';
-import { request } from '../../utils/request.ts';
+import { postLogin, postRefresh } from '../../api/users/post.ts';
 
 interface HandleUserLoginParams {
     userName: UserState['userName'];
     password: string;
 }
 
-interface HandleUserLoginData {
-    accessToken: UserState['accessToken'],
-    refreshToken: UserState['refreshToken']
-}
-
 export const handleUserLogin = ({ userName, password }: HandleUserLoginParams) => async (dispatch: AppDispatch) => {
-    const { status, data } = await request<HandleUserLoginData, HandleUserLoginParams>({
-        auth: false,
-        method: 'POST',
-        route: '/users/login',
-        body: {
-            userName,
-            password
-        }
-    });
+    const { status, data } = await postLogin({ userName, password });
 
     if (status === 401) {
         return {
@@ -40,10 +27,10 @@ export const handleUserLogin = ({ userName, password }: HandleUserLoginParams) =
     }
 
     dispatch(setUserName(userName));
-    dispatch(setAccessToken(data.accessToken));
+    dispatch(setAccessToken(data.token));
     dispatch(setRefreshToken(data.refreshToken));
 
-    localStorage.setItem('refreshToken', data.refreshToken!);
+    localStorage.setItem('refreshToken', data.refreshToken);
 
     return {
         success: true
@@ -51,7 +38,6 @@ export const handleUserLogin = ({ userName, password }: HandleUserLoginParams) =
 };
 
 export const refreshUserToken = () => async (dispatch: AppDispatch) => {
-    console.log(1);
     const refreshToken = localStorage.getItem('refreshToken');
 
     if (!refreshToken) {
@@ -60,15 +46,7 @@ export const refreshUserToken = () => async (dispatch: AppDispatch) => {
         return;
     }
 
-    // check, if refreshToken is valid
-    const { status, data } = await request<HandleUserLoginData, { refreshToken: string }>({
-        auth: false,
-        method: 'POST',
-        route: '/users/refresh',
-        body: {
-            refreshToken
-        }
-    });
+    const { status, data } = await postRefresh({ refreshToken });
 
     if (status !== 200 || !data) {
         dispatch(setLoadingState('rejected'));
@@ -80,6 +58,6 @@ export const refreshUserToken = () => async (dispatch: AppDispatch) => {
     localStorage.setItem('refreshToken', data.refreshToken!);
 
     dispatch(setRefreshToken(data.refreshToken));
-    dispatch(setAccessToken(data.accessToken));
+    dispatch(setAccessToken(data.token));
     dispatch(setLoadingState('successful'));
 };

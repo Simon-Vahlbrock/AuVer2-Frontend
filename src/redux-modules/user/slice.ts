@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { LoadingState } from '../../types/app.ts';
 
 export interface UserState {
     userName: string | null;
     accessToken: string | null;
     refreshToken: string | null;
-    loadingState: 'loading' | 'successful' | 'rejected';
+    loadingState: LoadingState;
 }
 
 const initialState: UserState = {

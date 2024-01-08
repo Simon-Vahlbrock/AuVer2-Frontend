@@ -3,7 +3,7 @@ import {SERVER_URL} from '../constants/server'
 type ContentType = 'application/json' | 'application/merge-patch+json';
 
 interface RequestOptions<Body> {
-    accessToken?: string;
+    accessToken?: string | null;
     auth?: boolean;
     body?: Body;
     contentType?: ContentType

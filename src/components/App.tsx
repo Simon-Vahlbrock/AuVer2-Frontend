@@ -7,10 +7,13 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux.ts';
 import { selectUserLoadingState, selectUserRefreshToken } from '../redux-modules/user/selectors.ts';
 import { refreshUserToken } from '../redux-modules/user/actions.ts';
 import Content from './content/Content.tsx';
+import { loadBoards } from '../redux-modules/boards/actions.ts';
+import { selectBoardsLoadingState } from '../redux-modules/boards/selectors.ts';
 
 const App: FC = () => {
     const isLoggedIn = useAppSelector(selectUserRefreshToken);
     const userLoadingState = useAppSelector(selectUserLoadingState);
+    const boardsLoadingState = useAppSelector(selectBoardsLoadingState);
 
     const [mode, setMode] = useState<PaletteMode>(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
@@ -19,6 +22,12 @@ const App: FC = () => {
     useEffect(() => {
         void dispatch(refreshUserToken());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (isLoggedIn && boardsLoadingState === 'loading') {
+            void dispatch(loadBoards());
+        }
+    }, [boardsLoadingState, dispatch, isLoggedIn]);
 
     const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
