@@ -1,4 +1,4 @@
-import { FC, FormEvent } from 'react';
+import { FC, useState } from 'react';
 import {
     Avatar,
     Box,
@@ -9,11 +9,40 @@ import {
     Typography
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useAppDispatch } from '../../hooks/redux.ts';
+import { handleUserLogin } from '../../redux-modules/user/actions.ts';
 
 const Login: FC = () => {
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const [localUserName, setLocalUserName] = useState('');
+    const [localPassword, setLocalPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [message, setMessage] = useState<string | null>(null);
 
-    }
+    const dispatch = useAppDispatch();
+
+    const isLoginDisabled = localPassword.trim().length === 0 || localUserName.trim().length === 0 || isLoading;
+
+    const handleSubmit = async () => {
+        setIsLoading(true);
+
+        const { message } = await dispatch(handleUserLogin({
+            userName: localUserName,
+            password: localPassword
+        }));
+
+        setIsLoading(false);
+
+        if (message) {
+            setMessage(message);
+            setLocalPassword('');
+
+            return;
+        }
+
+        setLocalPassword('');
+        setLocalUserName('');
+        setMessage(null);
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -32,16 +61,18 @@ const Login: FC = () => {
                 <Typography component="h1" variant="h5">
                     AuVer2
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Box component="form" noValidate sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
+                        id="username"
                         label="Benutzername"
-                        name="email"
-                        autoComplete="email"
+                        name="username"
+                        autoComplete="username"
                         autoFocus
+                        value={localUserName}
+                        onChange={(event) => setLocalUserName(event.target.value)}
                     />
                     <TextField
                         margin="normal"
@@ -52,8 +83,24 @@ const Login: FC = () => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        value={localPassword}
+                        onChange={(event) => setLocalPassword(event.target.value)}
+                        onKeyDownCapture={(event) => {
+                            if (event.key === 'Enter' && !isLoginDisabled) {
+                                void handleSubmit();
+                            }
+                        }}
                     />
+                    {message && (
+                        <Box id="login-unseccessful">
+                            <Typography component="footer" sx={{ color: 'red' }}>
+                                {message}
+                            </Typography>
+                        </Box>
+                    )}
                     <Button
+                        onClick={handleSubmit}
+                        disabled={isLoginDisabled}
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, color: 'white' }}

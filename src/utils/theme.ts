@@ -5,6 +5,7 @@ declare module '@mui/material/styles' {
         custom: {
             secondaryBackgroundColor: string;
             menuBorderColor: string;
+            iconColor: string;
         };
     }
 
@@ -12,6 +13,7 @@ declare module '@mui/material/styles' {
         custom: {
             secondaryBackgroundColor: string;
             menuBorderColor: string;
+            iconColor: string;
         };
     }
 }
@@ -39,6 +41,10 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
                     dark: '#3a5a7c',
                     contrastText: '#3a5a7c',
                 },
+                background: {
+                    default: '#1f1d29',
+                    paper: '#424242',
+                }
             }),
     },
     typography: {
@@ -46,7 +52,8 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
         fontSize: 14,
     },
     custom: {
-        secondaryBackgroundColor: mode === 'light' ? '#f1f1f1' : '#303030',
-        menuBorderColor: mode === 'light' ? '#e1e1e1' : '#424242',
+        secondaryBackgroundColor: mode === 'light' ? '#f1f1f1' : '#14161c',
+        menuBorderColor: mode === 'light' ? '#e1e1e1' : '#292836',
+        iconColor: mode === 'light' ? '#000000' : '#e5e5e5',
     }
 });

@@ -2,16 +2,25 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { Box, IconButton, PaletteMode, TextField, useTheme } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { LogoutOutlined } from '@mui/icons-material';
+import { useAppDispatch } from '../../hooks/redux.ts';
+import { logout } from '../../redux-modules/user/slice.ts';
 
 interface HeaderProps {
     setMode: Dispatch<SetStateAction<PaletteMode>>;
 }
 
 const Header: FC<HeaderProps> = ({ setMode }) => {
+    const dispatch = useAppDispatch();
+
     const theme = useTheme();
 
     const handleModeChange = () => {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+    };
+
+    const handleLogoutClick = () => {
+        dispatch(logout());
     };
 
     return (
@@ -62,7 +71,14 @@ const Header: FC<HeaderProps> = ({ setMode }) => {
                 }}
             >
                 <IconButton sx={{ mt: 'auto', mb: 'auto' }} color="inherit" onClick={handleModeChange}>
-                    {theme.palette.mode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}
+                    {theme.palette.mode === 'dark' ? (
+                        <Brightness7Icon sx={{ color: theme.custom.iconColor }}/>
+                    ) : (
+                        <Brightness4Icon sx={{ color: theme.custom.iconColor }}/>
+                    )}
+                </IconButton>
+                <IconButton sx={{ mt: 'auto', mb: 'auto' }} color="inherit" onClick={handleLogoutClick}>
+                    <LogoutOutlined sx={{ color: theme.custom.iconColor }}/>
                 </IconButton>
             </Box>
         </Box>
