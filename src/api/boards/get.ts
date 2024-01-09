@@ -14,7 +14,7 @@ export const getBoards = async ({ accessToken }: GetBoardsParams): Promise<ApiFu
     const response = await request<GetBoardsResponse>({
         route: '/boards',
         method: 'GET',
-        accessToken: accessToken,
+        accessToken,
     });
 
     return { status: response.status, data: response.data };
