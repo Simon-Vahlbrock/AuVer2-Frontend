@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import  { FC, useState, MouseEvent } from 'react';
 import {
     Button,
     Dialog,
@@ -31,9 +31,9 @@ const BoardContextMenu: FC<BoardContextMenuProps> = ({ id }) => {
 
     const dispatch = useAppDispatch();
 
-    const handleClick = (event) => {
+    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
-    };
+    }
 
     const closeContextMenu = () => {
         setAnchorEl(null);
