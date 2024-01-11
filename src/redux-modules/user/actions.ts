@@ -59,5 +59,6 @@ export const refreshUserToken = () => async (dispatch: AppDispatch) => {
 
     dispatch(setRefreshToken(data.refreshToken));
     dispatch(setAccessToken(data.token));
+    dispatch(setUserName(data.userName));
     dispatch(setLoadingState('successful'));
 };

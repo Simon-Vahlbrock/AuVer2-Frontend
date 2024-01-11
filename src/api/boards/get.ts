@@ -6,12 +6,10 @@ interface GetBoardsParams {
     accessToken: string | null;
 }
 
-interface GetBoardsResponse {
-    boards: Board[];
-}
+type GetBoardsData = Board[];
 
-export const getBoards = async ({ accessToken }: GetBoardsParams): Promise<ApiFunctionResult<GetBoardsResponse>> => {
-    const response = await request<GetBoardsResponse>({
+export const getBoards = async ({ accessToken }: GetBoardsParams): Promise<ApiFunctionResult<GetBoardsData>> => {
+    const response = await request<GetBoardsData>({
         route: '/boards',
         method: 'GET',
         accessToken,

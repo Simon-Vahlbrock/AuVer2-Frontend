@@ -7,7 +7,7 @@ interface HandleUserLoginParams {
     password: string;
 }
 
-interface HandleUserLoginData {
+interface PostLoginData {
     token: string,
     refreshToken: string
 }
@@ -16,8 +16,8 @@ export const postLogin = async (
     {
         userName,
         password
-    }: HandleUserLoginParams): Promise<ApiFunctionResult<HandleUserLoginData>> => {
-    const response = await request<HandleUserLoginData, HandleUserLoginParams>({
+    }: HandleUserLoginParams): Promise<ApiFunctionResult<PostLoginData>> => {
+    const response = await request<PostLoginData, HandleUserLoginParams>({
         auth: false,
         method: 'POST',
         route: '/users/login',
@@ -34,8 +34,14 @@ interface PostRefreshParams {
     refreshToken: string;
 }
 
-export const postRefresh = async ({ refreshToken }: PostRefreshParams): Promise<ApiFunctionResult<HandleUserLoginData>> => {
-    const response = await request<HandleUserLoginData, { refreshToken: string }>({
+interface PostRefreshData {
+    token: string;
+    refreshToken: string;
+    userName: string,
+}
+
+export const postRefresh = async ({ refreshToken }: PostRefreshParams): Promise<ApiFunctionResult<PostRefreshData>> => {
+    const response = await request<PostRefreshData, { refreshToken: string }>({
         auth: false,
         method: 'POST',
         route: '/users/refresh',

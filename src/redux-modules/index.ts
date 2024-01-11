@@ -2,10 +2,12 @@ import { configureStore, combineReducers, ThunkDispatch, AnyAction } from '@redu
 import { createLogger } from 'redux-logger';
 import { userReducer } from './user/slice.ts';
 import { boardsReducer } from './boards/slice.ts';
+import { tasksReducer } from './tasks/slice.ts';
 
 const rootReducer = combineReducers({
     user: userReducer,
     boards: boardsReducer,
+    tasks: tasksReducer
 });
 
 const Store = configureStore({
