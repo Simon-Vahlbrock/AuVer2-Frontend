@@ -1,6 +1,6 @@
 import { getTasks } from '../../api/tasks/get.ts';
 import { AppDispatch, GetAppState } from '../index.ts';
-import { selectAllUsers, selectUserAccessToken } from '../user/selectors.ts';
+import { selectUserAccessToken } from '../user/selectors.ts';
 import { setTasks, updateTask } from './slice.ts';
 import { patchTask } from '../../api/tasks/patch.ts';
 import { selectTaskById } from './selectors.ts';
