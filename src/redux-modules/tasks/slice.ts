@@ -43,6 +43,18 @@ const tasksSlice = createSlice({
 
                 return { ...task, ...payload };
             });
+
+            // if boardId is in payload, move task to end of array
+            if (payload.boardId) {
+                const task = state.tasks.find((task) => task.id === payload.id);
+
+                if (!task) {
+                    return;
+                }
+
+                state.tasks = state.tasks.filter((task) => task.id !== payload.id);
+                state.tasks.push(task);
+            }
         },
         addTask(state, { payload }: PayloadAction<Task>) {
             state.tasks = [...state.tasks, payload];

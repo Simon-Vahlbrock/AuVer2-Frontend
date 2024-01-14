@@ -1,5 +1,5 @@
 import { FC, useCallback } from 'react';
-import { Board as IBoard } from '../../../types/boards.ts';
+import { Board as IBoard, BoardPosition } from '../../../types/boards.ts';
 import { Box, Typography, useTheme } from '@mui/material';
 import BoardContextMenu from './board-context-menu/BoardContextMenu.tsx';
 import { useAppSelector } from '../../../hooks/redux.ts';
@@ -11,9 +11,10 @@ import AddTask from './add-task/AddTask.tsx';
 interface BoardProps {
     id: IBoard['id'];
     name: IBoard['name'];
+    boardPosition: BoardPosition;
 }
 
-const Board: FC<BoardProps> = ({ name, id }) => {
+const Board: FC<BoardProps> = ({ name, id, boardPosition }) => {
     const tasksSelector = useCallback((state: RootState) => selectTaskByBoardId(state, id), [id]);
     const tasks = useAppSelector(tasksSelector);
 
@@ -45,7 +46,11 @@ const Board: FC<BoardProps> = ({ name, id }) => {
             </Box>
             <Box>
                 {tasks?.map((task) => (
-                    <Task key={task.id} task={task}/>
+                    <Task
+                        boardPosition={boardPosition}
+                        key={task.id}
+                        task={task}
+                    />
                 ))}
             </Box>
             <AddTask boardId={id}/>

@@ -5,14 +5,15 @@ interface PatchTaskParams {
     accessToken: string | null;
     title?: string;
     text?: string;
+    boardId?: number;
     id: number;
 }
 
-export const patchTask = async ({ id, title, accessToken, text }: PatchTaskParams): Promise<ApiFunctionResult> => {
+export const patchTask = async ({ id, title, accessToken, text, boardId }: PatchTaskParams): Promise<ApiFunctionResult> => {
     const response = await request({
         route: `/tasks/${id}`,
         method: 'PATCH',
-        body: { title, text },
+        body: { title, text, boardId },
         accessToken
     });
 

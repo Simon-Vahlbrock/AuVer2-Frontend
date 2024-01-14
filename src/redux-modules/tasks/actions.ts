@@ -6,6 +6,7 @@ import { patchTask } from '../../api/tasks/patch.ts';
 import { selectTaskById } from './selectors.ts';
 import { postLabelIdToTask, postTask, postUserToTask } from '../../api/tasks/post.ts';
 import { deleteLabelIdFromTask, deleteTask, deleteUserFromTask } from '../../api/tasks/delete.ts';
+import { selectBoards } from '../boards/selectors.ts';
 
 export const loadTasks = () => async (dispatch: AppDispatch, getState: GetAppState) => {
     const accessToken = selectUserAccessToken(getState());
@@ -139,4 +140,39 @@ export const saveTaskRemove = ({ taskId }: SaveTaskRemoveProps) => async (dispat
     }
 
     dispatch(removeTask({ id: taskId }));
+};
+
+interface SaveBoardIdOfTaskUpdateProps {
+    taskId: number;
+    boardId: number;
+    goNext: boolean; // If true, move task to next board. If false, move task to previous board.
+}
+
+export const saveBoardIdOfTaskUpdate = (
+    {
+        taskId,
+        boardId,
+        goNext
+    }: SaveBoardIdOfTaskUpdateProps) => async (dispatch: AppDispatch, getState: GetAppState) => {
+    const state = getState();
+    const accessToken = selectUserAccessToken(state);
+    const boards = selectBoards(state);
+
+    const currentBoardIdIndex = boards.findIndex((board) => board.id === boardId);
+
+    let newBoardId: number;
+
+    if (goNext) {
+        newBoardId = boards[currentBoardIdIndex + 1].id;
+    } else {
+        newBoardId = boards[currentBoardIdIndex - 1].id;
+    }
+
+    const { status } = await patchTask({ id: taskId, boardId: newBoardId, accessToken });
+
+    if (status !== 200) {
+        return;
+    }
+
+    dispatch(updateTask({ id: taskId, boardId: newBoardId }));
 };
