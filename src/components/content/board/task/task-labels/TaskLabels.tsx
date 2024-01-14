@@ -10,6 +10,10 @@ interface TaskLabelsProps {
 const TaskLabels: FC<TaskLabelsProps> = ({ assignedLabelIds }) => {
     const labels = useAppSelector(selectLabels);
 
+    if (assignedLabelIds.length === 0) {
+        return null;
+    }
+
     return (
         <Box
         sx={{

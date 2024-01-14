@@ -1,11 +1,11 @@
 import { getTasks } from '../../api/tasks/get.ts';
 import { AppDispatch, GetAppState } from '../index.ts';
 import { selectUserAccessToken } from '../user/selectors.ts';
-import { setTasks, updateTask } from './slice.ts';
+import { addTask, removeTask, setTasks, updateTask } from './slice.ts';
 import { patchTask } from '../../api/tasks/patch.ts';
 import { selectTaskById } from './selectors.ts';
-import { postLabelIdToTask, postUserToTask } from '../../api/tasks/post.ts';
-import { deleteLabelIdFromTask, deleteUserFromTask } from '../../api/tasks/delete.ts';
+import { postLabelIdToTask, postTask, postUserToTask } from '../../api/tasks/post.ts';
+import { deleteLabelIdFromTask, deleteTask, deleteUserFromTask } from '../../api/tasks/delete.ts';
 
 export const loadTasks = () => async (dispatch: AppDispatch, getState: GetAppState) => {
     const accessToken = selectUserAccessToken(getState());
@@ -102,4 +102,41 @@ export const saveAssignedLabelsUpdate = (
     const removeResults = await Promise.all(removePromises);
 
     dispatch(updateTask({ id: taskId, assignedLabelIds: selectedLabelIds }));
+};
+
+interface SavePostAddProps {
+    title: string;
+    text: string;
+    boardId: number;
+}
+
+export const savePostAdd = (
+    {
+        boardId, title, text
+    }: SavePostAddProps) => async (dispatch: AppDispatch, getState: GetAppState) => {
+    const accessToken = selectUserAccessToken(getState());
+
+    const { status, data } = await postTask({ title, text, boardId, accessToken });
+
+    if (status !== 200 || !data) {
+        return;
+    }
+
+    dispatch(addTask({ ...data, assignedLabelIds: [], assignedUserNames: [] }));
+};
+
+interface SaveTaskRemoveProps {
+    taskId: number;
+}
+
+export const saveTaskRemove = ({ taskId }: SaveTaskRemoveProps) => async (dispatch: AppDispatch, getState: GetAppState) => {
+    const accessToken = selectUserAccessToken(getState());
+
+    const { status } = await deleteTask({ taskId, accessToken });
+
+    if (status !== 200) {
+        return;
+    }
+
+    dispatch(removeTask({ id: taskId }));
 };

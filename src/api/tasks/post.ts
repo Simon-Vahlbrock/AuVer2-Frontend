@@ -42,3 +42,40 @@ export const postLabelIdToTask = async (
 
     return { status: response.status };
 };
+
+interface PostTaskProps {
+    title: string;
+    text: string;
+    accessToken: string | null;
+    boardId: number;
+}
+
+interface PostTaskData {
+    id: number;
+    title: string;
+    text: string;
+    boardId: number;
+}
+
+interface PostTaskBody {
+    title: string;
+    text: string;
+    boardId: number;
+}
+
+export const postTask = async (
+    {
+        accessToken,
+        boardId,
+        text,
+        title
+    }: PostTaskProps): Promise<ApiFunctionResult<PostTaskData>> => {
+    const response = await request<PostTaskData, PostTaskBody>({
+        route: '/tasks',
+        method: 'POST',
+        accessToken,
+        body: { title, text, boardId }
+    });
+
+    return { status: response.status, data: response.data };
+};

@@ -47,8 +47,8 @@ const tasksSlice = createSlice({
         addTask(state, { payload }: PayloadAction<Task>) {
             state.tasks = [...state.tasks, payload];
         },
-        deleteTask(state, { payload }: PayloadAction<number>) {
-            state.tasks = state.tasks.filter((task) => task.id !== payload);
+        removeTask(state, { payload }: PayloadAction<Pick<Task, 'id'>>) {
+            state.tasks = state.tasks.filter((task) => task.id !== payload.id);
         },
         setSelectedTaskElement(state, { payload }: PayloadAction<SelectedTaskElement>) {
             state.selectedTaskElement = payload;
@@ -100,7 +100,7 @@ export const {
     setLoadingState,
     updateTask,
     addTask,
-    deleteTask,
+    removeTask,
     setSelectedTaskElement,
     removeSelectedTaskElement,
     addUserToTask,

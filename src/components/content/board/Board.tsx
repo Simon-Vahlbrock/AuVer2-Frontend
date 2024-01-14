@@ -6,6 +6,7 @@ import { useAppSelector } from '../../../hooks/redux.ts';
 import { selectTaskByBoardId } from '../../../redux-modules/tasks/selectors.ts';
 import Task from './task/Task.tsx';
 import { RootState } from '../../../redux-modules';
+import AddTask from './add-task/AddTask.tsx';
 
 interface BoardProps {
     id: IBoard['id'];
@@ -47,6 +48,7 @@ const Board: FC<BoardProps> = ({ name, id }) => {
                     <Task key={task.id} task={task}/>
                 ))}
             </Box>
+            <AddTask boardId={id}/>
         </Box>
     );
 };

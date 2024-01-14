@@ -8,6 +8,7 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import UserDialog from './user-dialog/UserDialog.tsx';
 import LabelsDialog from './labels-dialog/LabelsDialog.tsx';
+import DeleteTaskDialog from './delete-task-dialog/DeleteTaskDialog.tsx';
 
 interface TaskContextMenuProps {
     id: Task['id'];
@@ -15,7 +16,8 @@ interface TaskContextMenuProps {
 
 enum DialogOptions {
     AssignUsers = 1,
-    AssignLabels
+    AssignLabels,
+    DeleteTask
 }
 
 const TaskContextMenu: FC<TaskContextMenuProps> = ({ id }) => {
@@ -30,13 +32,8 @@ const TaskContextMenu: FC<TaskContextMenuProps> = ({ id }) => {
         setAnchorEl(null);
     };
 
-    const handleAssignUsersClick = () => {
-        setDialogOption(DialogOptions.AssignUsers);
-        closeContextMenu();
-    };
-
-    const handleAssignLabelsClick = () => {
-        setDialogOption(DialogOptions.AssignLabels);
+    const handleSetDialogOption = (option: DialogOptions) => {
+        setDialogOption(option);
         closeContextMenu();
     };
 
@@ -50,8 +47,9 @@ const TaskContextMenu: FC<TaskContextMenuProps> = ({ id }) => {
                 open={Boolean(anchorEl)}
                 onClose={closeContextMenu}
             >
-                <MenuItem onClick={handleAssignUsersClick}>Personen zuweisen</MenuItem>
-                <MenuItem onClick={handleAssignLabelsClick}>Labels zuweisen</MenuItem>
+                <MenuItem onClick={() => handleSetDialogOption(DialogOptions.AssignUsers)}>Personen zuweisen</MenuItem>
+                <MenuItem onClick={() => handleSetDialogOption(DialogOptions.AssignLabels)}>Labels zuweisen</MenuItem>
+                <MenuItem onClick={() => handleSetDialogOption(DialogOptions.DeleteTask)}>Ausgabe löschen</MenuItem>
             </Menu>
             <UserDialog
                 id={id}
@@ -61,6 +59,11 @@ const TaskContextMenu: FC<TaskContextMenuProps> = ({ id }) => {
             <LabelsDialog
                 id={id}
                 isOpen={dialogOption === DialogOptions.AssignLabels}
+                closeDialog={() => setDialogOption(null)}
+            />
+            <DeleteTaskDialog
+                id={id}
+                isOpen={dialogOption === DialogOptions.DeleteTask}
                 closeDialog={() => setDialogOption(null)}
             />
         </div>

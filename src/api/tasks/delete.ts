@@ -38,3 +38,18 @@ export const deleteLabelIdFromTask = async (
 
     return { status: response.status };
 };
+
+interface DeleteTaskProps {
+    taskId: number;
+    accessToken: string | null;
+}
+
+export const deleteTask = async ({ taskId, accessToken }: DeleteTaskProps): Promise<ApiFunctionResult> => {
+    const response = await request({
+        route: `/tasks/${taskId}`,
+        method: 'DELETE',
+        accessToken
+    });
+
+    return { status: response.status };
+};
