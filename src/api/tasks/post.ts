@@ -1,5 +1,6 @@
 import { request } from '../../utils/request.ts';
 import { ApiFunctionResult } from '../../types/api.ts';
+import { Task } from '../../types/task.ts';
 
 interface PostUserToTaskProps {
     taskId: number;
@@ -50,13 +51,6 @@ interface PostTaskProps {
     boardId: number;
 }
 
-interface PostTaskData {
-    id: number;
-    title: string;
-    text: string;
-    boardId: number;
-}
-
 interface PostTaskBody {
     title: string;
     text: string;
@@ -69,8 +63,8 @@ export const postTask = async (
         boardId,
         text,
         title
-    }: PostTaskProps): Promise<ApiFunctionResult<PostTaskData>> => {
-    const response = await request<PostTaskData, PostTaskBody>({
+    }: PostTaskProps): Promise<ApiFunctionResult<Task>> => {
+    const response = await request<Task, PostTaskBody>({
         route: '/tasks',
         method: 'POST',
         accessToken,

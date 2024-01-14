@@ -33,7 +33,7 @@ export const saveBoardRename = (
 
     const { status } = await patchBoard({ accessToken, name, id });
 
-    if (status !== 200) {
+    if (status !== 204) {
         // ToDo add error message
         return;
     }

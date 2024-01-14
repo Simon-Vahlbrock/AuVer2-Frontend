@@ -36,7 +36,7 @@ export const saveTaskUpdate = (
 
     const { status } = await patchTask({ id, title, accessToken, text });
 
-    if (status !== 200) {
+    if (status !== 204) {
         return;
     }
 };
@@ -123,7 +123,7 @@ export const savePostAdd = (
         return;
     }
 
-    dispatch(addTask({ ...data, assignedLabelIds: [], assignedUserNames: [] }));
+    dispatch(addTask(data));
 };
 
 interface SaveTaskRemoveProps {
@@ -170,7 +170,7 @@ export const saveBoardIdOfTaskUpdate = (
 
     const { status } = await patchTask({ id: taskId, boardId: newBoardId, accessToken });
 
-    if (status !== 200) {
+    if (status !== 204) {
         return;
     }
 

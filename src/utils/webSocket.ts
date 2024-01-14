@@ -31,7 +31,6 @@ export const initWebSocket = () => {
     });
 
     socket.on('delete_task', (data: { id: number }) => {
-        console.log(data);
         store.dispatch(removeTask(data));
     });
 
