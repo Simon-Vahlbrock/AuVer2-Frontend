@@ -1,16 +1,20 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
 import { Box, IconButton, PaletteMode, TextField, useTheme } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { LogoutOutlined } from '@mui/icons-material';
-import { useAppDispatch } from '../../hooks/redux.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.ts';
 import { logout } from '../../redux-modules/user/slice.ts';
+import { selectSearchString } from '../../redux-modules/tasks/selectors.ts';
+import { setSearchString } from '../../redux-modules/tasks/slice.ts';
 
 interface HeaderProps {
     setMode: Dispatch<SetStateAction<PaletteMode>>;
 }
 
 const Header: FC<HeaderProps> = ({ setMode }) => {
+    const searchString = useAppSelector(selectSearchString);
+
     const dispatch = useAppDispatch();
 
     const theme = useTheme();
@@ -21,6 +25,11 @@ const Header: FC<HeaderProps> = ({ setMode }) => {
 
     const handleLogoutClick = () => {
         dispatch(logout());
+    };
+
+    const handleSearchStringChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        dispatch(setSearchString(value));
     };
 
     return (
@@ -59,6 +68,8 @@ const Header: FC<HeaderProps> = ({ setMode }) => {
                     sx={{
                         width: '100%',
                     }}
+                    value={searchString}
+                    onChange={handleSearchStringChange}
                 />
             </Box>
             <Box

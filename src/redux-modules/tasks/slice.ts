@@ -6,17 +6,22 @@ export interface TaskState {
     tasks: Task[];
     loadingState: LoadingState;
     selectedTaskElement?: SelectedTaskElement;
+    searchString: string;
 }
 
 const initialState: TaskState = {
     tasks: [],
     loadingState: 'loading',
+    searchString: ''
 };
 
 const tasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
+        setSearchString(state, { payload }: PayloadAction<string>) {
+            state.searchString = payload;
+        },
         setTasks(state, { payload }: PayloadAction<Task[]>) {
             state.tasks = payload;
             state.loadingState = 'successful';
@@ -122,6 +127,7 @@ export const {
     addUserToTask,
     removeUserFromTask,
     addLabelIdToTask,
-    removeLabelIdFromTask
+    removeLabelIdFromTask,
+    setSearchString
 } = tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;
