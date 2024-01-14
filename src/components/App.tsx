@@ -5,7 +5,7 @@ import Header from './header/Header.tsx';
 import Login from './login/Login.tsx';
 import { useAppDispatch, useAppSelector } from '../hooks/redux.ts';
 import { selectUserLoadingState, selectUserRefreshToken } from '../redux-modules/user/selectors.ts';
-import { refreshUserToken } from '../redux-modules/user/actions.ts';
+import { loadUser, refreshUserToken } from '../redux-modules/user/actions.ts';
 import Content from './content/Content.tsx';
 import { loadBoards } from '../redux-modules/boards/actions.ts';
 import { selectBoardsLoadingState } from '../redux-modules/boards/selectors.ts';
@@ -33,6 +33,7 @@ const App: FC = () => {
         if (isLoggedIn && boardsLoadingState === 'loading') {
             void dispatch(loadBoards());
             void dispatch(loadTasks());
+            void dispatch(loadUser());
         }
     }, [boardsLoadingState, dispatch, isLoggedIn]);
 

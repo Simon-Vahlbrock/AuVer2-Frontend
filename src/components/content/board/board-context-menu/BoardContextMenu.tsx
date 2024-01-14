@@ -104,7 +104,6 @@ const BoardContextMenu: FC<BoardContextMenuProps> = ({ id }) => {
                         </DialogContent>
                     </>
                 )}
-
                 <DialogActions>
                     <Button
                         variant="contained"

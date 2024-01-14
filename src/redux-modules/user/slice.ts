@@ -5,6 +5,7 @@ export interface UserState {
     userName: string | null;
     accessToken: string | null;
     refreshToken: string | null;
+    users: string[];
     loadingState: LoadingState;
 }
 
@@ -12,6 +13,7 @@ const initialState: UserState = {
     userName: null,
     accessToken: null,
     refreshToken: null,
+    users: [],
     loadingState: 'loading',
 };
 
@@ -19,17 +21,20 @@ const slice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUserName: (state, action: PayloadAction<UserState['userName']>) => {
-            state.userName = action.payload;
+        setUserName: (state, { payload }: PayloadAction<UserState['userName']>) => {
+            state.userName = payload;
         },
-        setAccessToken: (state, action: PayloadAction<UserState['accessToken']>) => {
-            state.accessToken = action.payload;
+        setAllUsers: (state, { payload }: PayloadAction<UserState['users']>) => {
+            state.users = payload;
         },
-        setRefreshToken: (state, action: PayloadAction<UserState['refreshToken']>) => {
-            state.refreshToken = action.payload;
+        setAccessToken: (state, { payload }: PayloadAction<UserState['accessToken']>) => {
+            state.accessToken = payload;
         },
-        setLoadingState: (state, action: PayloadAction<UserState['loadingState']>) => {
-            state.loadingState = action.payload;
+        setRefreshToken: (state, { payload }: PayloadAction<UserState['refreshToken']>) => {
+            state.refreshToken = payload;
+        },
+        setLoadingState: (state, { payload }: PayloadAction<UserState['loadingState']>) => {
+            state.loadingState = payload;
         },
         logout: (state) => {
             state.userName = null;
@@ -43,5 +48,12 @@ const slice = createSlice({
     },
 });
 
-export const { setUserName, setAccessToken, setRefreshToken, setLoadingState, logout } = slice.actions;
+export const {
+    setUserName,
+    setAccessToken,
+    setRefreshToken,
+    setLoadingState,
+    logout,
+    setAllUsers
+} = slice.actions;
 export const userReducer = slice.reducer;

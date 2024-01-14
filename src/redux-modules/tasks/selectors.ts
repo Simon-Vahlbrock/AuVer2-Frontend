@@ -8,3 +8,4 @@ export const selectTasks = (state: RootState): TaskState['tasks'] => selectTasks
 export const selectTasksLoadingLoadingState = (state: RootState): TaskState['loadingState'] => selectTasksState(state).loadingState;
 
 export const selectTaskByBoardId = (state: RootState, boardId: number) => selectTasksState(state).tasks.filter((task) => task.boardId === boardId);
+export const selectTaskById = (state: RootState, taskId: number) => selectTasksState(state).tasks.find((task) => task.id === taskId)!;

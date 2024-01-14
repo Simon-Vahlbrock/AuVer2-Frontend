@@ -1,11 +1,9 @@
-import { UserState } from '../redux-modules/user/slice.ts';
-
 export interface Task {
     title: string;
     text: string;
     boardId: number;
     id: number;
-    assignedUserNames: UserState['userName'];
+    assignedUserNames: string[];
     assignedLabelIds: number[];
 }
 

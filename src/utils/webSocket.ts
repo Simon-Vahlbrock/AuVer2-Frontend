@@ -3,7 +3,7 @@ import store from '../redux-modules/index';
 import { Board } from '../types/boards.ts';
 import { updateBoard } from '../redux-modules/boards/slice.ts';
 import { Task } from '../types/task.ts';
-import { updateTask } from '../redux-modules/tasks/slice.ts';
+import { addUserToTask, removeUserFromTask, updateTask } from '../redux-modules/tasks/slice.ts';
 
 export const initWebSocket = () => {
     const socket = io('ws://localhost:3000');
@@ -18,6 +18,14 @@ export const initWebSocket = () => {
 
     socket.on('update_task', (data: Partial<Task> & { id: number }) => {
         store.dispatch(updateTask(data));
+    });
+
+    socket.on('add_user_to_task', (data: { taskId: number, userName: string }) => {
+        store.dispatch(addUserToTask(data));
+    });
+
+    socket.on('delete_user_from_task', (data: { taskId: number, userName: string }) => {
+        store.dispatch(removeUserFromTask(data));
     });
 
     socket.on('disconnect', () => {

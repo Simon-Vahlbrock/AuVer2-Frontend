@@ -1,6 +1,8 @@
-import { AppDispatch } from '../index.ts';
-import { setAccessToken, setLoadingState, setRefreshToken, setUserName, UserState } from './slice.ts';
+import { AppDispatch, GetAppState } from '../index.ts';
+import { setAccessToken, setAllUsers, setLoadingState, setRefreshToken, setUserName, UserState } from './slice.ts';
 import { postLogin, postRefresh } from '../../api/users/post.ts';
+import { getAllUsers } from '../../api/users/get.ts';
+import { selectUserAccessToken } from './selectors.ts';
 
 interface HandleUserLoginParams {
     userName: UserState['userName'];
@@ -61,4 +63,16 @@ export const refreshUserToken = () => async (dispatch: AppDispatch) => {
     dispatch(setAccessToken(data.token));
     dispatch(setUserName(data.userName));
     dispatch(setLoadingState('successful'));
+};
+
+export const loadUser = () => async (dispatch: AppDispatch, getState: GetAppState) => {
+    const accessToken = selectUserAccessToken(getState());
+
+    const { status, data } = await getAllUsers({ accessToken });
+
+    if (status !== 200 || !data) {
+        return;
+    }
+
+    dispatch(setAllUsers(data));
 };

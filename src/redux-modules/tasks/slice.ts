@@ -17,14 +17,14 @@ const tasksSlice = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        setTasks(state, action: PayloadAction<Task[]>) {
-            state.tasks = action.payload;
+        setTasks(state, { payload }: PayloadAction<Task[]>) {
+            state.tasks = payload;
             state.loadingState = 'successful';
         },
-        setLoadingState(state, action: PayloadAction<LoadingState>) {
-            state.loadingState = action.payload;
+        setLoadingState(state, { payload }: PayloadAction<LoadingState>) {
+            state.loadingState = payload;
         },
-        updateTask(state, {payload}: PayloadAction<Partial<Task> & { id: number }>) {
+        updateTask(state, { payload }: PayloadAction<Partial<Task> & { id: number }>) {
             state.tasks = state.tasks.map((task) => {
                 if (task.id !== payload.id) {
                     return task;
@@ -44,18 +44,35 @@ const tasksSlice = createSlice({
                 return { ...task, ...payload };
             });
         },
-        addTask(state, action: PayloadAction<Task>) {
-            state.tasks = [...state.tasks, action.payload];
+        addTask(state, { payload }: PayloadAction<Task>) {
+            state.tasks = [...state.tasks, payload];
         },
-        deleteTask(state, action: PayloadAction<number>) {
-            state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+        deleteTask(state, { payload }: PayloadAction<number>) {
+            state.tasks = state.tasks.filter((task) => task.id !== payload);
         },
-        setSelectedTaskElement(state, action: PayloadAction<SelectedTaskElement>) {
-            console.log(1, action.payload);
-            state.selectedTaskElement = action.payload;
+        setSelectedTaskElement(state, { payload }: PayloadAction<SelectedTaskElement>) {
+            state.selectedTaskElement = payload;
         },
         removeSelectedTaskElement(state) {
             state.selectedTaskElement = undefined;
+        },
+        addUserToTask(state, { payload }: PayloadAction<{ taskId: number, userName: string }>) {
+            const task = state.tasks.find((task) => task.id === payload.taskId);
+
+            if (!task || task.assignedUserNames.includes(payload.userName)) {
+                return;
+            }
+
+            task.assignedUserNames.push(payload.userName);
+        },
+        removeUserFromTask(state, { payload }: PayloadAction<{ taskId: number, userName: string }>) {
+            const task = state.tasks.find((task) => task.id === payload.taskId);
+
+            if (!task) {
+                return;
+            }
+
+            task.assignedUserNames = task.assignedUserNames.filter((userName) => userName !== payload.userName);
         }
     },
 });
@@ -68,5 +85,7 @@ export const {
     deleteTask,
     setSelectedTaskElement,
     removeSelectedTaskElement,
+    addUserToTask,
+    removeUserFromTask
 } = tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;

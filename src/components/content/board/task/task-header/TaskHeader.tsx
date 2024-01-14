@@ -9,6 +9,7 @@ import {
 } from '../../../../../redux-modules/tasks/slice.ts';
 import { TaskElementTypes } from '../../../../../types/task.ts';
 import { saveTaskUpdate } from '../../../../../redux-modules/tasks/actions.ts';
+import TaskContextMenu from './task-context-menu/TaskContextMenu.tsx';
 
 interface TaskHeaderProps {
     title: string;
@@ -45,7 +46,14 @@ const TaskHeader: FC<TaskHeaderProps> = ({ id, title }) => {
     }, [title]);
 
     return (
-        <Box padding="16px">
+        <Box
+            sx={{
+                padding: '16px 8px 16px 16px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            }}
+        >
             <input
                 type="text"
                 style={{
@@ -63,6 +71,7 @@ const TaskHeader: FC<TaskHeaderProps> = ({ id, title }) => {
                 value={localTitle}
                 onChange={handleTitleChange}
             />
+            <TaskContextMenu id={id}/>
         </Box>
     );
 };
