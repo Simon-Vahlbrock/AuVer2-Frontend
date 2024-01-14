@@ -21,3 +21,24 @@ export const postUserToTask = async (
 
     return { status: response.status };
 };
+
+interface PostLabelIdToTaskProps {
+    taskId: number;
+    labelId: number;
+    accessToken: string | null;
+}
+
+export const postLabelIdToTask = async (
+    {
+        labelId,
+        taskId,
+        accessToken
+    }: PostLabelIdToTaskProps): Promise<ApiFunctionResult> => {
+    const response = await request({
+        route: `/tasks/${taskId}/labels/${labelId}`,
+        method: 'POST',
+        accessToken
+    });
+
+    return { status: response.status };
+};

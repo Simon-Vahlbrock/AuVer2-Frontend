@@ -3,11 +3,13 @@ import { createLogger } from 'redux-logger';
 import { userReducer } from './user/slice.ts';
 import { boardsReducer } from './boards/slice.ts';
 import { tasksReducer } from './tasks/slice.ts';
+import { labelsReducer } from './labels/slice.ts';
 
 const rootReducer = combineReducers({
     user: userReducer,
     boards: boardsReducer,
-    tasks: tasksReducer
+    tasks: tasksReducer,
+    labels: labelsReducer,
 });
 
 const Store = configureStore({

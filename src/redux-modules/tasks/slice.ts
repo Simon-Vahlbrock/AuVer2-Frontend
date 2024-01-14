@@ -73,6 +73,24 @@ const tasksSlice = createSlice({
             }
 
             task.assignedUserNames = task.assignedUserNames.filter((userName) => userName !== payload.userName);
+        },
+        addLabelIdToTask(state, { payload }: PayloadAction<{ taskId: number, labelId: number }>) {
+            const task = state.tasks.find((task) => task.id === payload.taskId);
+
+            if (!task || task.assignedLabelIds.includes(payload.labelId)) {
+                return;
+            }
+
+            task.assignedLabelIds.push(payload.labelId);
+        },
+        removeLabelIdFromTask(state, { payload }: PayloadAction<{ taskId: number, labelId: number }>) {
+            const task = state.tasks.find((task) => task.id === payload.taskId);
+
+            if (!task) {
+                return;
+            }
+
+            task.assignedLabelIds = task.assignedLabelIds.filter((labelId) => labelId !== payload.labelId);
         }
     },
 });
@@ -86,6 +104,8 @@ export const {
     setSelectedTaskElement,
     removeSelectedTaskElement,
     addUserToTask,
-    removeUserFromTask
+    removeUserFromTask,
+    addLabelIdToTask,
+    removeLabelIdFromTask
 } = tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;

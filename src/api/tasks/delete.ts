@@ -17,3 +17,24 @@ export const deleteUserFromTask = async (
 
     return { status: response.status };
 };
+
+interface DeleteLabelIdFromTaskProps {
+    taskId: number;
+    accessToken: string | null;
+    labelId: number;
+}
+
+export const deleteLabelIdFromTask = async (
+    {
+        taskId,
+        accessToken,
+        labelId
+    }: DeleteLabelIdFromTaskProps): Promise<ApiFunctionResult> => {
+    const response = await request({
+        route: `/tasks/${taskId}/labels/${labelId}`,
+        method: 'DELETE',
+        accessToken
+    });
+
+    return { status: response.status };
+};

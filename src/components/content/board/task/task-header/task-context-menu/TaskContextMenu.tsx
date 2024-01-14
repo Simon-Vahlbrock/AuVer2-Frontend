@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import UserDialog from './user-dialog/UserDialog.tsx';
+import LabelsDialog from './labels-dialog/LabelsDialog.tsx';
 
 interface TaskContextMenuProps {
     id: Task['id'];
@@ -55,6 +56,11 @@ const TaskContextMenu: FC<TaskContextMenuProps> = ({ id }) => {
             <UserDialog
                 id={id}
                 isOpen={dialogOption === DialogOptions.AssignUsers}
+                closeDialog={() => setDialogOption(null)}
+            />
+            <LabelsDialog
+                id={id}
+                isOpen={dialogOption === DialogOptions.AssignLabels}
                 closeDialog={() => setDialogOption(null)}
             />
         </div>

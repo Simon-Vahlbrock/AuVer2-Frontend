@@ -11,6 +11,7 @@ import { loadBoards } from '../redux-modules/boards/actions.ts';
 import { selectBoardsLoadingState } from '../redux-modules/boards/selectors.ts';
 import { initWebSocket } from '../utils/webSocket.ts';
 import { loadTasks } from '../redux-modules/tasks/actions.ts';
+import { loadLabels } from '../redux-modules/labels/actions.ts';
 
 const App: FC = () => {
     const isLoggedIn = useAppSelector(selectUserRefreshToken);
@@ -34,6 +35,7 @@ const App: FC = () => {
             void dispatch(loadBoards());
             void dispatch(loadTasks());
             void dispatch(loadUser());
+            void dispatch(loadLabels());
         }
     }, [boardsLoadingState, dispatch, isLoggedIn]);
 
