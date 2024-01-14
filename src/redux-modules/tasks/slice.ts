@@ -57,6 +57,10 @@ const tasksSlice = createSlice({
             }
         },
         addTask(state, { payload }: PayloadAction<Task>) {
+            if (state.tasks.find((task) => task.id === payload.id)) {
+                return;
+            }
+
             state.tasks = [...state.tasks, payload];
         },
         removeTask(state, { payload }: PayloadAction<Pick<Task, 'id'>>) {

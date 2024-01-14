@@ -4,9 +4,9 @@ import { Board } from '../types/boards.ts';
 import { updateBoard } from '../redux-modules/boards/slice.ts';
 import { Task } from '../types/task.ts';
 import {
-    addLabelIdToTask,
+    addLabelIdToTask, addTask,
     addUserToTask,
-    removeLabelIdFromTask,
+    removeLabelIdFromTask, removeTask,
     removeUserFromTask,
     updateTask
 } from '../redux-modules/tasks/slice.ts';
@@ -24,6 +24,15 @@ export const initWebSocket = () => {
 
     socket.on('update_task', (data: Partial<Task> & { id: number }) => {
         store.dispatch(updateTask(data));
+    });
+
+    socket.on('add_task', (data: Task) => {
+        store.dispatch(addTask(data));
+    });
+
+    socket.on('delete_task', (data: { id: number }) => {
+        console.log(data);
+        store.dispatch(removeTask(data));
     });
 
     socket.on('add_user_to_task', (data: { taskId: number, userName: string }) => {
