@@ -3,15 +3,16 @@ import { ApiFunctionResult } from '../../types/api.ts';
 
 interface PatchTaskParams {
     accessToken: string | null;
-    title: string;
+    title?: string;
+    text?: string;
     id: number;
 }
 
-export const patchTask = async ({ id, title, accessToken }: PatchTaskParams): Promise<ApiFunctionResult> => {
+export const patchTask = async ({ id, title, accessToken, text }: PatchTaskParams): Promise<ApiFunctionResult> => {
     const response = await request({
         route: `/tasks/${id}`,
         method: 'PATCH',
-        body: { title },
+        body: { title, text },
         accessToken
     });
 

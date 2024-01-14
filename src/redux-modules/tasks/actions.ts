@@ -21,17 +21,19 @@ export const loadTasks = () => async (dispatch: AppDispatch, getState: GetAppSta
 
 interface SaveTaskUpdate {
     id: number;
-    title: string;
+    title?: string;
+    text?: string;
 }
 
 export const saveTaskUpdate = (
     {
         id,
-        title
+        title,
+        text
     }: SaveTaskUpdate) => async (dispatch: AppDispatch, getState: GetAppState) => {
     const accessToken = selectUserAccessToken(getState());
 
-    const { status } = await patchTask({ id, title, accessToken });
+    const { status } = await patchTask({ id, title, accessToken, text });
 
     if (status !== 200) {
         return;

@@ -23,6 +23,7 @@ export const initWebSocket = () => {
     });
 
     socket.on('update_task', (data: Partial<Task> & { id: number }) => {
+        console.log(data);
         store.dispatch(updateTask(data));
     });
 
