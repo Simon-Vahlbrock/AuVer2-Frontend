@@ -48,7 +48,7 @@ const TaskHeader: FC<TaskHeaderProps> = ({ id, title }) => {
     return (
         <Box
             sx={{
-                padding: '16px 8px 16px 16px',
+                padding: '16px 8px 0 16px',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',

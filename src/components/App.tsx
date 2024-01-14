@@ -12,11 +12,15 @@ import { selectBoardsLoadingState } from '../redux-modules/boards/selectors.ts';
 import { initWebSocket } from '../utils/webSocket.ts';
 import { loadTasks } from '../redux-modules/tasks/actions.ts';
 import { loadLabels } from '../redux-modules/labels/actions.ts';
+import { selectLabelsLoadingState } from '../redux-modules/labels/selectors.ts';
+import { selectTasksLoadingState } from '../redux-modules/tasks/selectors.ts';
 
 const App: FC = () => {
     const isLoggedIn = useAppSelector(selectUserRefreshToken);
     const userLoadingState = useAppSelector(selectUserLoadingState);
     const boardsLoadingState = useAppSelector(selectBoardsLoadingState);
+    const labelsLoadingState = useAppSelector(selectLabelsLoadingState);
+    const tasksLoadingState = useAppSelector(selectTasksLoadingState);
 
     const [mode, setMode] = useState<PaletteMode>(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
@@ -31,17 +35,17 @@ const App: FC = () => {
     }, []);
 
     useEffect(() => {
-        if (isLoggedIn && boardsLoadingState === 'loading') {
+        if (isLoggedIn) {
             void dispatch(loadBoards());
             void dispatch(loadTasks());
             void dispatch(loadUser());
             void dispatch(loadLabels());
         }
-    }, [boardsLoadingState, dispatch, isLoggedIn]);
+    }, [dispatch, isLoggedIn]);
 
     const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
-    if (userLoadingState === 'loading') {
+    if (userLoadingState === 'loading' || boardsLoadingState === 'loading' || labelsLoadingState === 'loading' || tasksLoadingState === 'loading') {
         return null;
     }
 

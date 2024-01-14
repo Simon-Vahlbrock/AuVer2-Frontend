@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Task as ITask } from '../../../../types/task.ts';
 import { Box } from '@mui/material';
 import TaskHeader from './task-header/TaskHeader.tsx';
+import TaskLabels from './task-labels/TaskLabels.tsx';
 
 interface TaskProps {
     task: ITask;
@@ -13,6 +14,7 @@ const Task: FC<TaskProps> = ({ task }) => {
     return (
         <Box>
             <TaskHeader id={id} title={title}/>
+            <TaskLabels assignedLabelIds={assignedLabelIds}/>
         </Box>
     );
 };
