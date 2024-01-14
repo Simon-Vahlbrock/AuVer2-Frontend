@@ -61,8 +61,10 @@ const App: FC = () => {
         <ThemeProvider theme={theme}>
             <Box sx={{
                 backgroundColor: theme.palette.background.default,
-                height: '100%',
-                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100vh',
+                width: '100vw'
             }}>
                 <Header setMode={setMode}/>
                 <Content/>

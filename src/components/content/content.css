@@ -1,0 +1,21 @@
+.board-wrapper {
+    overflow-x: auto;
+    display: flex;
+    padding: 16px;
+    gap: 28px;
+    align-items: flex-start;
+    flex: 5;
+
+    /* Hide the scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+/* For WebKit browsers like Chrome and Safari */
+.board-wrapper::-webkit-scrollbar {
+    width: 0.5rem; /* You can adjust this width as needed */
+}
+
+.board-wrapper::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}

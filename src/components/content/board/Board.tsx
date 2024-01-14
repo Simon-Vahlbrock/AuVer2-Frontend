@@ -23,7 +23,8 @@ const Board: FC<BoardProps> = ({ name, id, boardPosition }) => {
     return (
         <Box
             sx={{
-                width: '400px',
+                minWidth: '400px',
+                maxWidth: '400px',
                 border: `6px solid ${theme.custom.menuBorderColor}`,
                 borderRadius: '4px',
             }}
