@@ -13,6 +13,7 @@ const Content: FC = () => {
                 display: 'flex',
                 padding: '16px',
                 gap: '28px',
+                alignItems: 'flex-start',
             }}
         >
             {boards.map(({ id, name}) => (
