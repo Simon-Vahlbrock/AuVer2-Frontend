@@ -14,6 +14,7 @@ import { loadTasks } from '../redux-modules/tasks/actions.ts';
 import { loadLabels } from '../redux-modules/labels/actions.ts';
 import { selectLabelsLoadingState } from '../redux-modules/labels/selectors.ts';
 import { selectTasksLoadingState } from '../redux-modules/tasks/selectors.ts';
+import { loadHistory } from '../redux-modules/history/actions.ts';
 
 const App: FC = () => {
     const isLoggedIn = useAppSelector(selectUserRefreshToken);
@@ -40,6 +41,7 @@ const App: FC = () => {
             void dispatch(loadTasks());
             void dispatch(loadUser());
             void dispatch(loadLabels());
+            void dispatch(loadHistory());
         }
     }, [dispatch, isLoggedIn]);
 

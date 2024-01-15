@@ -4,12 +4,14 @@ import { userReducer } from './user/slice.ts';
 import { boardsReducer } from './boards/slice.ts';
 import { tasksReducer } from './tasks/slice.ts';
 import { labelsReducer } from './labels/slice.ts';
+import { historyReducer } from './history/slice.ts';
 
 const rootReducer = combineReducers({
     user: userReducer,
     boards: boardsReducer,
     tasks: tasksReducer,
     labels: labelsReducer,
+    history: historyReducer,
 });
 
 const Store = configureStore({

@@ -10,6 +10,8 @@ import {
     removeUserFromTask,
     updateTask
 } from '../redux-modules/tasks/slice.ts';
+import { addHistoryEntryViaWebSocket, updateHistoryEntry } from '../redux-modules/history/slice.ts';
+import { HistoryEntry } from '../types/history.ts';
 
 export const initWebSocket = () => {
     const socket = io('ws://localhost:3000');
@@ -48,6 +50,14 @@ export const initWebSocket = () => {
 
     socket.on('delete_label_id_from_task', (data: { taskId: number, labelId: number }) => {
         store.dispatch(removeLabelIdFromTask(data));
+    });
+
+    socket.on('update_history_entry', (data: { id: number, description: string }) => {
+        store.dispatch(updateHistoryEntry(data));
+    });
+
+    socket.on('create_history_entry', (data: HistoryEntry) => {
+        store.dispatch(addHistoryEntryViaWebSocket(data));
     });
 
     socket.on('disconnect', () => {

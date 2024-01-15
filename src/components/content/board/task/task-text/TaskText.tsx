@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { Box, useTheme } from '@mui/material';
-import { debounce } from 'lodash';
+import { throttle } from 'lodash';
 import { saveTaskUpdate } from '../../../../../redux-modules/tasks/actions.ts';
 import { useAppDispatch } from '../../../../../hooks/redux.ts';
 import {
@@ -17,7 +17,6 @@ interface TaskTextProps {
 
 const TaskText: FC<TaskTextProps> = ({ text, id }) => {
     const [localText, setLocalText] = useState(text);
-
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const theme = useTheme();
@@ -25,19 +24,30 @@ const TaskText: FC<TaskTextProps> = ({ text, id }) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        resizeTextarea();
         setLocalText(text);
     }, [text]);
 
-    const debouncedUpdateText = debounce((newText: string) => {
-        void dispatch(saveTaskUpdate({ id, text: newText }));
-    }, 500);
+    useEffect(() => {
+        resizeTextarea();
+    }, [localText]);
+
+    const throttledTextUpdate = useRef(
+        throttle((newText: string) => {
+            void dispatch(saveTaskUpdate({ id, text: newText }));
+        }, 500)
+    ).current;
+
+    useEffect(() => {
+        return () => {
+            throttledTextUpdate.cancel();
+        };
+    }, [throttledTextUpdate]);
 
     const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const newText = event.target.value;
         setLocalText(newText);
 
-        debouncedUpdateText(newText);
+        throttledTextUpdate(newText);
     };
 
     const onFocus = () => {
@@ -76,7 +86,7 @@ const TaskText: FC<TaskTextProps> = ({ text, id }) => {
                    border: 'none',
                    outline: 'none',
                    background: 'none',
-                   fontFamily:'inherit',
+                   fontFamily: 'inherit',
                    fontSize: 'inherit',
                    color: 'white',
                    overflowY: 'hidden', /* Hide vertical scrollbar initially */
