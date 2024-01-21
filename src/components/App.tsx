@@ -18,7 +18,6 @@ import { loadHistory } from '../redux-modules/history/actions.ts';
 
 const App: FC = () => {
     const isLoggedIn = useAppSelector(selectUserRefreshToken);
-    console.log(isLoggedIn);
     const userLoadingState = useAppSelector(selectUserLoadingState);
     const boardsLoadingState = useAppSelector(selectBoardsLoadingState);
     const labelsLoadingState = useAppSelector(selectLabelsLoadingState);
