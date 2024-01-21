@@ -40,7 +40,7 @@ const Board: FC<BoardProps> = ({ name, id, boardPosition }) => {
                     borderBottom: `3px solid ${theme.custom.menuBorderColor}`
                 }}
             >
-                <Typography component="h1" variant="h5" color="primary.light">
+                <Typography component="h1" variant="h5" sx={{color: theme.custom.boardTitle}}>
                     {name}
                 </Typography>
                 <BoardContextMenu id={id}/>

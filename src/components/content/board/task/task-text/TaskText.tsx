@@ -88,7 +88,7 @@ const TaskText: FC<TaskTextProps> = ({ text, id }) => {
                    background: 'none',
                    fontFamily: 'inherit',
                    fontSize: 'inherit',
-                   color: 'white',
+                   color: theme.custom.font,
                    overflowY: 'hidden', /* Hide vertical scrollbar initially */
                }}
                value={localText}

@@ -18,6 +18,7 @@ import { loadHistory } from '../redux-modules/history/actions.ts';
 
 const App: FC = () => {
     const isLoggedIn = useAppSelector(selectUserRefreshToken);
+    console.log(isLoggedIn);
     const userLoadingState = useAppSelector(selectUserLoadingState);
     const boardsLoadingState = useAppSelector(selectBoardsLoadingState);
     const labelsLoadingState = useAppSelector(selectLabelsLoadingState);
@@ -47,16 +48,16 @@ const App: FC = () => {
 
     const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
-    if (userLoadingState === 'loading' || boardsLoadingState === 'loading' || labelsLoadingState === 'loading' || tasksLoadingState === 'loading') {
-        return null;
-    }
-
     if (!isLoggedIn) {
         return (
             <ThemeProvider theme={theme}>
                 <Login/>
             </ThemeProvider>
         );
+    }
+
+    if (userLoadingState === 'loading' || boardsLoadingState === 'loading' || labelsLoadingState === 'loading' || tasksLoadingState === 'loading') {
+        return null;
     }
 
     return (

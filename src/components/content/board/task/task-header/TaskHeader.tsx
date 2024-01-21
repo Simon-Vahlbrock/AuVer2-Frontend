@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { debounce } from 'lodash';
 import { useAppDispatch } from '../../../../../hooks/redux.ts';
 import {
@@ -24,6 +24,8 @@ interface TaskHeaderProps {
 const TaskHeader: FC<TaskHeaderProps> = ({ id, title, boardPosition, boardId }) => {
     const [localTitle, setLocalTitle] = useState(title);
     const [isInFocus, setIsInFocus] = useState(false);
+
+    const theme = useTheme();
 
     const dispatch = useAppDispatch();
 
@@ -77,7 +79,7 @@ const TaskHeader: FC<TaskHeaderProps> = ({ id, title, boardPosition, boardId }) 
                         background: 'none',
                         fontFamily: 'inherit',
                         fontSize: '1.2rem',
-                        color: 'white',
+                        color: theme.custom.font,
                         caretColor: 'white',
                         width: '100%',
                     }}
@@ -96,13 +98,13 @@ const TaskHeader: FC<TaskHeaderProps> = ({ id, title, boardPosition, boardId }) 
                     >
                         {boardPosition !== BoardPosition.First && (
                             <ArrowLeftIcon
-                                sx={{ color: 'white', cursor: 'pointer' }}
+                                sx={{ color: theme.custom.font, cursor: 'pointer' }}
                                 onClick={() => handleMoveTask(false)}
                             />
                         )}
                         {boardPosition !== BoardPosition.Last && (
                             <ArrowRightIcon
-                                sx={{ color: 'white', cursor: 'pointer' }}
+                                sx={{ color: theme.custom.font, cursor: 'pointer' }}
                                 onClick={() => handleMoveTask(true)}
                             />
                         )}

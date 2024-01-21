@@ -7,7 +7,7 @@ import {
     DialogTitle,
     IconButton,
     Menu,
-    MenuItem, TextField
+    MenuItem, TextField, useTheme
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { saveBoardRename } from '../../../../redux-modules/boards/actions.ts';
@@ -30,6 +30,8 @@ const BoardContextMenu: FC<BoardContextMenuProps> = ({ id }) => {
     const [newName, setNewName] = useState('');
 
     const dispatch = useAppDispatch();
+
+    const theme = useTheme();
 
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -64,7 +66,7 @@ const BoardContextMenu: FC<BoardContextMenuProps> = ({ id }) => {
     return (
         <div>
             <IconButton onClick={handleClick}>
-                <MoreVertIcon/>
+                <MoreVertIcon sx={{color: theme.custom.boardTitle}}/>
             </IconButton>
             <Menu
                 anchorEl={anchorEl}

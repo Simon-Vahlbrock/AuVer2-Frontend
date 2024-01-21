@@ -113,7 +113,7 @@ const HistoryEntry: FC<HistoryEntryProps> = ({ historyEntry }) => {
                     background: 'none',
                     fontFamily: 'inherit',
                     fontSize: 'inherit',
-                    color: 'white',
+                    color: theme.custom.font,
                     overflowY: 'hidden', /* Hide vertical scrollbar initially */
                 }}
                 value={localDescription}

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { useAppSelector } from '../../../hooks/redux.ts';
 import {
     selectHistoryEntries, selectHistoryEntryOfToday
@@ -10,6 +10,7 @@ import HistoryEntry from './history-entry/HistoryEntry.tsx';
 const History: FC = () => {
     const historyEntries = useAppSelector(selectHistoryEntries);
     const historyEntryOfToday = useAppSelector(selectHistoryEntryOfToday);
+    const theme = useTheme();
 
     return (
         <Box>
@@ -17,7 +18,7 @@ const History: FC = () => {
                 component="h1"
                 variant="h5"
                 sx={{
-                    color: 'white',
+                    color: theme.custom.font,
                     padding: '8px 0 8px 12px'
                 }}
             >
